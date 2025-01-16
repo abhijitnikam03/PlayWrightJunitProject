@@ -112,7 +112,7 @@
 				<version>2.22.2</version>
 				<configuration>
 					<includes>
-						<include>src/test/java/com/testrunner/TestRunner.java</include>
+						<include>src/test/java/com/testrunner/TestRunner</include>
 					</includes>
 				</configuration>
 			</plugin>
