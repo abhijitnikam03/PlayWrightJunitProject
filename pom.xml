@@ -30,14 +30,14 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.10.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
+			<artifactId>junit-jupiter-engine</artifactId>
 			<version>5.10.0</version>
 			<scope>test</scope>
 		</dependency>
@@ -112,7 +112,7 @@
 				<version>2.22.2</version>
 				<configuration>
 					<includes>
-						<include>src/test/java/com/testrunner/TestRunner</include>
+						<include>**/TestRunner.java</include>
 					</includes>
 				</configuration>
 			</plugin>
