@@ -41,9 +41,9 @@ public class DriverFactory {
 	public static Page getpage() {
 		return tlPage.get();
 	}
+	
 
-	public static Page initBrowser(String browsername) throws IOException {
-		
+	public static Page initBrowser(String browsername,String scenario) throws IOException {
 		System.out.println("Browser name is" + browsername);
 		tlPlaywright.set(Playwright.create());
 
@@ -58,22 +58,26 @@ public class DriverFactory {
 			tlBrowser.set(getplaywright().webkit().launch(new BrowserType.LaunchOptions().setHeadless(false)));
 			break;
 		case "chrome":
-			tlBrowser.set(
-					getplaywright().chromium().launch(new LaunchOptions().setChannel("chrome").setHeadless(true)));
+			tlBrowser
+					.set(getplaywright().chromium().launch(new LaunchOptions().setChannel("chrome").setHeadless(true)));
 			break;
 		default:
 			System.out.println("Please provide exact browser name....");
 			break;
 		}
 
-		tlBrowsercontext.set(getbrowser().newContext());
+		tlBrowsercontext.set(getbrowser().newContext(new Browser.NewContextOptions().
+				setRecordVideoDir(Paths.get("reports/test-Report/video/"+scenario)).setRecordVideoSize(640, 480)));
 		tlPage.set(getbrowsercontext().newPage());
-		//getpage().navigate(prop.getProperty("Url"));
 		return getpage();
 	}
 	
-	
-	
+	public void close_browser() {
+		tlBrowsercontext.get().close();
+		tlBrowser.get().close();
+		
+	}
+
 	public Properties init_property() throws IOException {
 		FileInputStream fis = new FileInputStream("./src/test/resources/config/config.properties");
 		prop = new Properties();
@@ -81,12 +85,12 @@ public class DriverFactory {
 		System.out.println("proprty data" + prop.getProperty("Browser"));
 		return prop;
 	}
-	
+
 	public static String takeScreenshot() {
-		String path = System.getProperty("user.dir") + "/screenshot/" + System.currentTimeMillis() + ".png";		
+		String path = System.getProperty("user.dir") + "/screenshot/" + System.currentTimeMillis() + ".png";
 		byte[] buffer = getpage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get(path)).setFullPage(true));
 		String base64Path = Base64.getEncoder().encodeToString(buffer);
-		
+
 		return base64Path;
 	}
 

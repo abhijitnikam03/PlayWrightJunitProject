@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.junit.BeforeClass;
+
 import com.microsoft.playwright.Page;
 import com.page.PracticePage;
 
@@ -21,33 +23,40 @@ public class AppHooks {
 	PracticePage practPage;
 	private ConfigReader configReader;
 
+	static {
+		System.out.println("Inside Before class");
+        String folderPath = "./reports/";
+        File folder = new File(folderPath);
+        if (deleteDirectory(folder)) {
+            System.out.println("Folder deleted successfully.");
+        } else {
+            System.out.println("Failed to delete the folder or it does not exist.");
+        }
+    }
+
 	@Before(order = 0)
-	public void setup() throws IOException {
+	public void setup(Scenario scenario) throws IOException {
+		String tagName = scenario.getSourceTagNames().iterator().next();
+		String sanitizedTagName = tagName.replaceAll("[^a-zA-Z0-9-_]", "_").substring(1);
 		configReader = new ConfigReader();
 		prop = configReader.init_prop();
 		String browsername = prop.getProperty("browser").trim();
 		System.out.println("Property name is" + prop);
 		File file = new File("recordings/");
 		df = new DriverFactory();
-		df.initBrowser(browsername);
+		System.out.println("Scenario name is" + sanitizedTagName);
+		df.initBrowser(browsername, sanitizedTagName);
 		practPage = new PracticePage(page);
-		String folderPath = "./reports";
-		File folder = new File(folderPath);
-		if (deleteDirectory(folder)) {
-			System.out.println("Folder deleted successfully.");
-		} else {
-			System.out.println("Failed to delete the folder.");
-		}
-
 	}
 
 	@After(order = 0)
 	public void Teardown(Scenario scenario) {
+		df.close_browser();
 		page = DriverFactory.getpage();
 		page.close();
 
 	}
-	
+
 	private static boolean deleteDirectory(File directory) {
 		if (directory.isDirectory()) {
 			File[] files = directory.listFiles();

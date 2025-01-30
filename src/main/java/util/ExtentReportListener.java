@@ -30,7 +30,6 @@ public class ExtentReportListener implements ITestListener {
 	private static ExtentReports extent = init();
 	public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
 	private static ExtentReports extentReports;
-	
 
 	private static ExtentReports init() {
 
@@ -44,7 +43,7 @@ public class ExtentReportListener implements ITestListener {
 				e.printStackTrace();
 			}
 		}
-		
+
 		extentReports = new ExtentReports();
 		ExtentSparkReporter reporter = new ExtentSparkReporter(OUTPUT_FOLDER + FILE_NAME);
 		reporter.config().setReportName("Open Cart Automation Test Results");
@@ -55,7 +54,7 @@ public class ExtentReportListener implements ITestListener {
 		extentReports.setSystemInfo("Team", "OMS");
 		extentReports.setSystemInfo("Customer Name", "NAL");
 
-		//extentReports.setSystemInfo("ENV NAME", System.getProperty("env"));
+		// extentReports.setSystemInfo("ENV NAME", System.getProperty("env"));
 
 		return extentReports;
 	}
@@ -63,7 +62,7 @@ public class ExtentReportListener implements ITestListener {
 	@Override
 	public synchronized void onStart(ITestContext context) {
 		System.out.println("Test Suite started!");
-		
+
 	}
 
 	@Override
@@ -98,19 +97,22 @@ public class ExtentReportListener implements ITestListener {
 	public synchronized void onTestSuccess(ITestResult result) {
 		System.out.println((result.getMethod().getMethodName() + " passed!"));
 		test.get().pass("Test passed");
-		test.get().pass(result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromBase64String(takeScreenshot(),result.getMethod().getMethodName()).build());
+		test.get().pass(result.getThrowable(), MediaEntityBuilder
+				.createScreenCaptureFromBase64String(takeScreenshot(), result.getMethod().getMethodName()).build());
 		test.get().getModel().setEndTime(getTime(result.getEndMillis()));
 	}
 
 	public synchronized void onTestFailure(ITestResult result) {
 		System.out.println((result.getMethod().getMethodName() + " failed!"));
-		test.get().fail(result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromBase64String(takeScreenshot(),result.getMethod().getMethodName()).build());
+		test.get().fail(result.getThrowable(), MediaEntityBuilder
+				.createScreenCaptureFromBase64String(takeScreenshot(), result.getMethod().getMethodName()).build());
 		test.get().getModel().setEndTime(getTime(result.getEndMillis()));
 	}
 
 	public synchronized void onTestSkipped(ITestResult result) {
 		System.out.println((result.getMethod().getMethodName() + " skipped!"));
-		test.get().skip(result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromBase64String(takeScreenshot(), result.getMethod().getMethodName()).build());
+		test.get().skip(result.getThrowable(), MediaEntityBuilder
+				.createScreenCaptureFromBase64String(takeScreenshot(), result.getMethod().getMethodName()).build());
 		test.get().getModel().setEndTime(getTime(result.getEndMillis()));
 	}
 

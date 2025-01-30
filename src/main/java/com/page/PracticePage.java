@@ -93,12 +93,12 @@ public class PracticePage {
 		page.waitForTimeout(2000);
 		page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Top")).click();
 	}
-	
+
 	public void alertbx() {
 		page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Confirm")).click();
-	      page.onceDialog(dialog -> {
-	        System.out.println(String.format("Dialog message: %s", dialog.message()));
-	        dialog.dismiss();
-	      });
+		page.onceDialog(dialog -> {
+			System.out.println(String.format("Dialog message: %s", dialog.message()));
+			dialog.dismiss();
+		});
 	}
 }

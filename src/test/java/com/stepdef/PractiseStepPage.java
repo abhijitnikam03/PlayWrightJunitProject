@@ -15,16 +15,16 @@ import io.cucumber.java.en.When;
 import util.ExcelReader;
 
 public class PractiseStepPage {
-	
+
 	PracticePage pp;
 	DriverFactory df;
-	String excelpath="src/test/java/com/testdata/InputData.xlsx";
+	String excelpath = "src/test/java/com/testdata/InputData.xlsx";
 	String radiobtn;
 	String cntname;
 	String dropdown;
 	String coursename;
 	String hideval;
-	
+
 	public PractiseStepPage() throws IOException {
 		pp = new PracticePage(DriverFactory.getpage());
 	}
@@ -33,10 +33,11 @@ public class PractiseStepPage {
 	public void open_practice_page_site(String string) {
 		DriverFactory.getpage().navigate("https://rahulshettyacademy.com/AutomationPractice/");
 	}
-	
+
 	@When("Select testdata from excel {string} {int}")
-	public void select_testdata_from_excel(String sheetname, Integer rownum) throws EncryptedDocumentException, IOException {
-		ExcelReader reader=new ExcelReader();
+	public void select_testdata_from_excel(String sheetname, Integer rownum)
+			throws EncryptedDocumentException, IOException {
+		ExcelReader reader = new ExcelReader();
 		List<Map<String, String>> map = reader.getdata(excelpath, sheetname);
 		radiobtn = map.get(rownum).get("radio button");
 		cntname = map.get(rownum).get("country name");
@@ -49,60 +50,60 @@ public class PractiseStepPage {
 		System.out.println(coursename);
 		System.out.println(hideval);
 	}
-	
+
 	@And("Check for radio button")
 	public void check_for_radio_button() {
 		pp.clickRadiobtn(radiobtn);
 	}
-	
+
 	@And("Select suggetion country name")
 	public void select_suggetion_country_name() {
-	    pp.entercounrtyname(cntname);
+		pp.entercounrtyname(cntname);
 	}
-	
+
 	@And("Select Dropdown example")
 	public void select_dropdown_example() {
-	    pp.selectOption(dropdown);
+		pp.selectOption(dropdown);
 	}
-	
+
 	@And("Select check box")
 	public void select_check_box() {
-	    pp.selectCheckbx(dropdown);
+		pp.selectCheckbx(dropdown);
 	}
-	
+
 	@And("Check alert is handle")
 	public void check_alert_is_handle() {
-	    pp.alertbx();
+		pp.alertbx();
 	}
-	
+
 	@And("Find course amount from table")
 	public void find_course_amount_from_table() {
-	    
+
 	}
-	
+
 	@And("Enter value in hide field")
 	public void enter_value_in_hide_field() {
-	    pp.hideshowEx();
+		pp.hideshowEx();
 	}
-	
+
 	@And("Check new window is open or not")
 	public void check_new_window_is_open_or_not() {
-	    pp.switchwindow();
+		pp.switchwindow();
 	}
-	
+
 	@And("Check new tab is open or not")
 	public void check_new_tab_is_open_or_not() {
-	    pp.switchtab();
+		pp.switchtab();
 	}
-	
+
 	@And("Mousehover on page")
 	public void mousehover_on_page() {
-		 pp.mouseover();
+		pp.mouseover();
 	}
-	
+
 	@And("Switch to frame")
 	public void switch_to_frame() {
-	   
+
 	}
 
 }
